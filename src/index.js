@@ -25,11 +25,13 @@ function convertOverallBR(br) {
   }
   return 'X';
 }
-function getUsernameColor(username) {
-  if (username === '-mg425-') {
-    return 'blue';
-  }
-  return 'none';
+
+const customBackgrounds = {
+  '-mg425-': 'custom/1000',
+  'Skopos': 'custom/1001',
+}
+const getUserBackground = (username, currBackground) => {
+  return customBackgrounds[username] || currBackground;
 }
 class LeaderboardPlayerContainer extends React.Component {
   render() {
@@ -41,14 +43,14 @@ class LeaderboardPlayerContainer extends React.Component {
     return (
       <div className='leaderboard-player-container'>
         {data.map((leaderboard_row, rank) => (
-          <div className='leaderboard-player-row'>
+          <div className='leaderboard-player-row' key={rank}>
             <div className='leaderboard-rank'>{rank+1}</div>
             <div className='leaderboard-player'>
               <div className='leaderboard-player-background'>
-                <img src={require(`./img/mp/player_backgrounds/${leaderboard_row.player_background}.webp`)} alt=''/>
+                <img src={require(`./img/mp/player_backgrounds/${getUserBackground(leaderboard_row.username, leaderboard_row.player_background)}.webp`)} alt=''/>
               </div>
               <div className='leaderboard-player-info'>
-                <div className={`leaderboard-player-name text-${getUsernameColor(leaderboard_row.username)}`}>{leaderboard_row.username}</div>
+                <div className={`leaderboard-player-name`}>{leaderboard_row.username}</div>
                 <div className='leaderboard-player-overall-br'>{convertOverallBR(leaderboard_row.overall_br)}</div>
               </div>
             </div>
@@ -64,12 +66,12 @@ class LeaderboardPlayerContainer extends React.Component {
 
 class LeaderboardContainer extends React.Component {
   render() {
-    const currSeasonText = 'Black Diamond Season: Mar 8, 2023 - Mar 15, 2023';
+    const currSeasonText = 'Batman Ninja Helmet Season: Mar 15, 2023 - Mar 22, 2023';
     return (
       <div className='leaderboard-container'>
         <div className='leaderboard-header'>
           <div className='leaderboard-status'>{currSeasonText}</div>
-          <div className='leaderboard-name'>{this.props.platform} TOP 10</div>
+          <div className='leaderboard-name'>{this.props.platform} TOP 25</div>
         </div>
 
         <div className='leaderboard-column-headings'>
